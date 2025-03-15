@@ -17,7 +17,15 @@ jobs:
             chmod 644 ~/.ssh/known_hosts
 
             ssh -i ~/ssh_key ubuntu@52.66.6.56 -t "
-                export NVM_DIR=\"$HOME/.nvm\";
-                [ -s \"$NVM_DIR/nvm.sh\" ] && \. \"$NVM_DIR/nvm.sh\"; 
+                export NVM_DIR=\$HOME/.nvm;
+                source \$NVM_DIR/nvm.sh;
                 nvm use 22.13.1;
-                cd testing/ && git pull origin main && npm install -g pnpm && pnpm install && pnpm run build && pm2 restart web && pm2 restart http-server && pm2 restart ws-server"
+                cd testing/;
+                git pull origin main;
+                npm install -g pnpm;
+                pnpm install;
+                pnpm run build;
+                pm2 restart web;
+                pm2 restart http-server;
+                pm2 restart ws-server;
+              "
