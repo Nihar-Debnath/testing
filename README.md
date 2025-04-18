@@ -19,7 +19,7 @@ npx tsc --init
 # and then in package.json we added this as a devDependency "@repo/typescript-config":"workspace:*"
 cd ../../
 pnpm i
-cd package/db
+cd package/prisma
 npx prisma init
 npx prisma generate
 npx prisma migrate dev
