@@ -1,0 +1,31 @@
+name: Deploy to production
+on:
+  push:
+    branches: [ production ]
+
+jobs:
+  redeploy_everything:
+    runs-on: ubuntu-latest
+    name: Deploying everything to the final production
+    steps:
+         - run: |
+            echo "${{ secrets.SSH_PRIVATE_KEY_LAPTOP }}" > ~/ssh_key
+            chmod 600 ~/ssh_key  # Correct permissions
+
+            mkdir -p ~/.ssh
+            ssh-keyscan -H 52.66.6.56 >> ~/.ssh/known_hosts  # Automatically add the SSH key
+            chmod 644 ~/.ssh/known_hosts
+
+            ssh -i ~/ssh_key ubuntu@15.206.117.182 -t "
+                export NVM_DIR=\$HOME/.nvm;
+                source \$NVM_DIR/nvm.sh;
+                nvm use 22.13.1;
+                cd testing/;
+                git pull origin production;
+                npm install -g pnpm;
+                pnpm install;
+                pnpm run build;
+                pm2 restart web;
+                pm2 restart http-server;
+                pm2 restart ws-server;
+              "
