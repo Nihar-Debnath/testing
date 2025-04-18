@@ -13,7 +13,7 @@ jobs:
             chmod 600 ~/ssh_key  # Correct permissions
 
             mkdir -p ~/.ssh
-            ssh-keyscan -H 52.66.6.56 >> ~/.ssh/known_hosts  # Automatically add the SSH key
+            ssh-keyscan -H 15.206.117.182 >> ~/.ssh/known_hosts  # Automatically add the SSH key
             chmod 644 ~/.ssh/known_hosts
 
             ssh -i ~/ssh_key ubuntu@15.206.117.182 -t "
